@@ -1,1 +1,2 @@
-web: bundle exec puma -b tcp://127.0.0.1:$PORT app.ru
+web: bin/web
+console: bin/console
