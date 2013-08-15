@@ -13,6 +13,10 @@ module R53Lookup
       env!("AWS_SECRET_ACCESS_KEY")
     end
 
+    def port
+      env!("PORT")
+    end
+
     private
     def env!(key)
       unless value = ENV[key]
@@ -84,6 +88,10 @@ module R53Lookup
       else
         halt 404
       end
+    end
+
+    def self.start
+      Rack::Server.start(:app => Web.new, :environment => :none, :server => :puma, :Port => Config.port)
     end
   end
 

@@ -1,3 +1,5 @@
-#!/bin/bash
-
-exec bundle exec puma -b tcp://127.0.0.1:$PORT app.ru
+#!/usr/bin/env ruby
+$:.unshift(File.expand_path(File.join(File.dirname($0), "../lib")))
+require "./app"
+$stdout.sync = true
+R53Lookup::Web.start
