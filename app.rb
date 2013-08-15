@@ -1,6 +1,17 @@
 require 'sinatra'
 require 'fog'
 
+class Rack::LogRequestID
+  def initialize(app); @app = app; end
+
+  def call(env)
+    puts "at=start request_id=#{env['HTTP_HEROKU_REQUEST_ID']}"
+    result = @app.call(env)
+    puts "at=finish request_id=#{env['HTTP_HEROKU_REQUEST_ID']}"
+    result
+  end
+end
+
 module R53Lookup
   module Config
     extend self
@@ -75,6 +86,8 @@ module R53Lookup
   end
 
   class Web < Sinatra::Base
+    use Rack::LogRequestID
+    
     get '/' do
       'Usage: curl /lookup?name=test.example1.com'
     end
