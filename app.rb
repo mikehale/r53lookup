@@ -49,7 +49,7 @@ module R53Lookup
       zone_names.detect{|zone| name =~ /#{Regexp.escape(zone)}\Z/}
     end
 
-    def lookup(name)
+    def lookup(name, alias_chain=[])
       zone_name = parse_zone(name)
       zone = zones.detect{|z|z.domain == zone_name}
       return nil unless zone
@@ -64,9 +64,9 @@ module R53Lookup
       return nil unless match
 
       if match =~ /#{Regexp.escape('.elb.amazonaws.com.')}/
-        match
+        alias_chain << match
       else
-        lookup(match)
+        lookup(match, alias_chain << match)
       end
     end
 
@@ -97,7 +97,7 @@ module R53Lookup
       return [400, "#{name} must belong to valid zone: #{Utils.zone_names.join(', ')}"] unless Utils.valid_zone?(name)
 
       if result = Utils.lookup(name)
-        result
+        result.join("\n")
       else
         halt 404
       end

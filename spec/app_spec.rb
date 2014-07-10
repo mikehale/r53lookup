@@ -80,11 +80,11 @@ describe R53Lookup::Utils do
     end
 
     it "should return the name" do
-      subject.lookup("us-east-1-a.route.example1.com").should == "123.us-east-1.elb.amazonaws.com."
+      subject.lookup("us-east-1-a.route.example1.com").should == ["123.us-east-1.elb.amazonaws.com."]
     end
 
     it "should recurse until an elb is found" do
-      subject.lookup("test.example1.com").should == "123.us-east-1.elb.amazonaws.com."
+      subject.lookup("test.example1.com").should == ["example1.com.", "us-east-1-a.route.example1.com.", "123.us-east-1.elb.amazonaws.com."]
     end
 
   end
