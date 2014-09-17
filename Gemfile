@@ -6,6 +6,7 @@ ruby version || "2.0.0"
 gem "sinatra"
 gem "fog"
 gem "puma"
+gem "excon-middleware-aws-exponential_backoff"
 
 group :development do
   gem "rspec"

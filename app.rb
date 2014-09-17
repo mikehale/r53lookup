@@ -1,5 +1,8 @@
 require 'sinatra'
 require 'fog'
+require 'excon/middleware/aws/exponential_backoff'
+
+Excon.defaults[:middlewares] << Excon::Middleware::AWS::ExponentialBackoff
 
 class Rack::LogRequestID
   def initialize(app); @app = app; end
@@ -87,7 +90,7 @@ module R53Lookup
 
   class Web < Sinatra::Base
     use Rack::LogRequestID
-    
+
     get '/' do
       'Usage: curl /lookup?name=test.example1.com'
     end

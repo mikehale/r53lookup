@@ -4,6 +4,8 @@ GEM
     builder (3.2.2)
     diff-lcs (1.2.4)
     excon (0.38.0)
+    excon-middleware-aws-exponential_backoff (0.0.1)
+      excon
     fog (1.22.1)
       fog-brightbox
       fog-core (~> 1.22)
@@ -57,6 +59,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  excon-middleware-aws-exponential_backoff
   fog
   puma
   rspec
